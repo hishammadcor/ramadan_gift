@@ -2,52 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>For Anan 💕</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Georgia, serif; overflow-x: hidden; }
+    body { font-family: Georgia, serif; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
     
-    .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 25%, #e91e63 50%, #c2185b 75%, #880e4f 100%); }
-    .hidden { display: none; }
+    .page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; position: relative; overflow: hidden; background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 25%, #e91e63 50%, #c2185b 75%, #880e4f 100%); }
+    .hidden { display: none !important; }
     
-    .card { background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(252,228,236,0.95)); border: 3px solid #c2185b; border-radius: 24px; padding: 40px; max-width: 500px; text-align: center; position: relative; z-index: 10; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-    .card2 { max-width: 700px; padding: 24px; animation: fadeIn 1s ease-out, glow 2s ease-in-out infinite; }
+    .card { background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(252,228,236,0.95)); border: 3px solid #c2185b; border-radius: 24px; padding: 32px 24px; max-width: 500px; width: 100%; text-align: center; position: relative; z-index: 10; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .card2 { max-width: 700px; padding: 20px 16px; animation: fadeIn 1s ease-out, glow 2s ease-in-out infinite; }
     
-    h1 { font-size: 2.5rem; color: #880e4f; margin-bottom: 16px; }
-    h2 { font-size: 1.75rem; color: #880e4f; margin-bottom: 16px; }
-    .divider { width: 120px; height: 4px; background: linear-gradient(90deg, #f48fb1, #c2185b, #f48fb1); margin: 16px auto; border-radius: 4px; }
-    .subtitle { font-size: 1.25rem; color: #ad1457; margin-bottom: 8px; }
-    .date { font-size: 2.5rem; font-weight: bold; color: #880e4f; margin-bottom: 24px; }
-    .question { font-size: 1.1rem; color: #c2185b; font-style: italic; margin-bottom: 32px; }
-    .hint { font-size: 0.9rem; color: #c2185b; font-style: italic; margin-top: 24px; }
+    h1 { font-size: 2rem; color: #880e4f; margin-bottom: 12px; }
+    h2 { font-size: 1.5rem; color: #880e4f; margin-bottom: 12px; }
+    .divider { width: 100px; height: 4px; background: linear-gradient(90deg, #f48fb1, #c2185b, #f48fb1); margin: 12px auto; border-radius: 4px; }
+    .subtitle { font-size: 1.1rem; color: #ad1457; margin-bottom: 8px; }
+    .date { font-size: 2rem; font-weight: bold; color: #880e4f; margin-bottom: 20px; }
+    .question { font-size: 1rem; color: #c2185b; font-style: italic; margin-bottom: 24px; line-height: 1.5; }
+    .hint { font-size: 0.85rem; color: #c2185b; font-style: italic; margin-top: 20px; }
     
-    .buttons { display: flex; justify-content: center; gap: 32px; align-items: center; min-height: 80px; position: relative; }
-    .btn-yes { padding: 12px 32px; background: linear-gradient(135deg, #e91e63, #c2185b, #880e4f); color: white; font-size: 1.25rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(194,24,91,0.4); transition: transform 0.3s, box-shadow 0.3s; }
-    .btn-yes:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(194,24,91,0.5); }
-    .btn-no { padding: 12px 32px; background: #d7ccc8; color: #888; font-size: 1.25rem; font-weight: 600; border: none; border-radius: 50px; cursor: not-allowed; transition: transform 0.2s; position: relative; }
+    .buttons { display: flex; justify-content: center; gap: 24px; align-items: center; min-height: 70px; position: relative; flex-wrap: wrap; }
+    .btn-yes { padding: 14px 32px; background: linear-gradient(135deg, #e91e63, #c2185b, #880e4f); color: white; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(194,24,91,0.4); transition: transform 0.3s, box-shadow 0.3s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    .btn-yes:hover, .btn-yes:active { transform: scale(1.1); box-shadow: 0 6px 25px rgba(194,24,91,0.5); }
+    .btn-no { padding: 14px 32px; background: #d7ccc8; color: #888; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: not-allowed; transition: transform 0.15s ease-out; position: absolute; -webkit-tap-highlight-color: transparent; }
     
-    .photos { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
-    .photo { width: 176px; height: 224px; border: 4px solid #c2185b; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+    .photos { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .photo { width: 150px; height: 200px; border: 4px solid #c2185b; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.15); flex-shrink: 0; }
     .photo img { width: 100%; height: 100%; object-fit: cover; }
     
-    .arabic-box { background: linear-gradient(135deg, rgba(136,14,79,0.1), rgba(194,24,91,0.1)); border: 2px solid #f48fb1; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
-    .arabic-text { font-family: 'Amiri', serif; font-size: 1.25rem; direction: rtl; color: #880e4f; line-height: 2.2; }
-    .more-text { font-family: 'Amiri', serif; color: #c2185b; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .arabic-box { background: linear-gradient(135deg, rgba(136,14,79,0.1), rgba(194,24,91,0.1)); border: 2px solid #f48fb1; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+    .arabic-text { font-family: 'Amiri', serif; font-size: 1.1rem; direction: rtl; color: #880e4f; line-height: 2; }
+    .more-text { font-family: 'Amiri', serif; color: #c2185b; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; flex-wrap: wrap; }
     
-    .footer { color: #880e4f; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .footer { color: #880e4f; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem; }
     
     .flower { position: absolute; pointer-events: none; }
-    .bg-flower { opacity: 0.6; animation: bounce 3s ease-in-out infinite; }
+    .bg-flower { opacity: 0.5; animation: bounce 3s ease-in-out infinite; }
     
     .explosion-flower { position: absolute; left: 50%; top: 50%; pointer-events: none; opacity: 0; }
     .falling-flower { position: absolute; pointer-events: none; animation: fall linear infinite; }
     
-    .heart-icon { font-size: 3rem; display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
+    .heart-icon { font-size: 2.5rem; display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .heart-icon svg { width: 40px; height: 40px; }
     .pulse { animation: pulse 1s ease-in-out infinite; }
-    .big-heart { font-size: 6rem; animation: pulse 0.5s ease-in-out infinite; }
+    .big-heart { font-size: 5rem; animation: pulse 0.5s ease-in-out infinite; }
     
+    /* Desktop styles */
+    @media (min-width: 481px) {
+      .card { padding: 40px; }
+      .card2 { padding: 24px; }
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 1.75rem; }
+      .date { font-size: 2.5rem; }
+      .subtitle { font-size: 1.25rem; }
+      .question { font-size: 1.1rem; }
+      .photo { width: 176px; height: 224px; }
+      .arabic-text { font-size: 1.25rem; }
+      .heart-icon svg { width: 50px; height: 50px; }
+      .heart-icon { font-size: 3rem; }
+    }
+    
+    /* Small mobile */
+    @media (max-width: 380px) {
+      .card { padding: 20px 16px; border-radius: 20px; }
+      h1 { font-size: 1.6rem; }
+      .date { font-size: 1.7rem; }
+      .subtitle { font-size: 1rem; }
+      .question { font-size: 0.95rem; }
+      .btn-yes, .btn-no { padding: 12px 24px; font-size: 1rem; }
+      .photo { width: 130px; height: 170px; }
+      .arabic-text { font-size: 1rem; }
+      .heart-icon svg { width: 35px; height: 35px; }
+    }
+
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     @keyframes fadeIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
@@ -61,9 +90,9 @@
     <div id="bgFlowers1"></div>
     <div class="card">
       <div class="heart-icon">
-        <svg width="50" height="50" viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#8B0000"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#DC143C"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FF6B6B"/><path d="M50 58 Q50 75 50 90" stroke="#228B22" stroke-width="3" fill="none"/><ellipse cx="38" cy="70" rx="6" ry="4" fill="#2E8B2E"/></svg>
-        <span style="font-size:3rem">💕</span>
-        <svg width="50" height="50" viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#DB7093"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#FFB6C1"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FFC0CB"/><path d="M50 58 Q50 75 50 90" stroke="#228B22" stroke-width="3" fill="none"/><ellipse cx="62" cy="70" rx="6" ry="4" fill="#2E8B2E"/></svg>
+        <svg viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#8B0000"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#DC143C"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FF6B6B"/><path d="M50 58 Q50 75 50 90" stroke="#228B22" stroke-width="3" fill="none"/><ellipse cx="38" cy="70" rx="6" ry="4" fill="#2E8B2E"/></svg>
+        <span>💕</span>
+        <svg viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#DB7093"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#FFB6C1"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FFC0CB"/><path d="M50 58 Q50 75 50 90" stroke="#228B22" stroke-width="3" fill="none"/><ellipse cx="62" cy="70" rx="6" ry="4" fill="#2E8B2E"/></svg>
       </div>
       <h1>Hello Hello Anan</h1>
       <div class="divider"></div>
@@ -72,7 +101,7 @@
       <p class="question">Would you like to continue forward in this relationship?</p>
       <div class="buttons">
         <button class="btn-yes" onclick="showPage2()">Yes 💖</button>
-        <button class="btn-no" id="noBtn" onmouseenter="moveNoBtn()" ontouchstart="moveNoBtn()">No 😢</button>
+        <button class="btn-no" id="noBtn">No 😢</button>
       </div>
       <p class="hint">(There's only one right answer 😉)</p>
     </div>
@@ -85,9 +114,9 @@
     <div id="loadingHeart" class="big-heart">💕</div>
     <div id="content" class="card card2 hidden">
       <div class="heart-icon pulse">
-        <svg width="45" height="45" viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#8B0000"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#DC143C"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FF6B6B"/></svg>
-        <span style="font-size:2.5rem">💍</span>
-        <svg width="45" height="45" viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#DB7093"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#FFB6C1"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FFC0CB"/></svg>
+        <svg viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#8B0000"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#B22222"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#DC143C"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#8B0000"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FF6B6B"/></svg>
+        <span>💍</span>
+        <svg viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="20" ry="18" fill="#DB7093"/><ellipse cx="42" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="58" cy="42" rx="15" ry="14" fill="#FF69B4"/><ellipse cx="50" cy="35" rx="12" ry="12" fill="#FFB6C1"/><ellipse cx="45" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="55" cy="50" rx="14" ry="12" fill="#DB7093"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#FFC0CB"/></svg>
       </div>
       <h2>Hesham & Anan</h2>
       <div class="photos">
@@ -115,12 +144,33 @@
       return svg.replace(/SIZE/g, size);
     }
 
-    function moveNoBtn() {
-      const btn = document.getElementById('noBtn');
-      const x = (Math.random() - 0.5) * 300;
-      const y = (Math.random() - 0.5) * 200;
-      btn.style.transform = `translate(${x}px, ${y}px)`;
+    // Runaway No button - works on both desktop and mobile
+    const noBtn = document.getElementById('noBtn');
+    let lastMove = 0;
+    
+    function moveNoBtn(e) {
+      if (e) e.preventDefault();
+      const now = Date.now();
+      if (now - lastMove < 100) return;
+      lastMove = now;
+      
+      const card = document.querySelector('.card');
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      
+      const maxX = (cardRect.width / 2) - (btnRect.width / 2) - 20;
+      const maxY = 80;
+      
+      const x = (Math.random() - 0.5) * maxX * 2;
+      const y = (Math.random() - 0.5) * maxY * 2;
+      
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
     }
+    
+    noBtn.addEventListener('mouseenter', moveNoBtn);
+    noBtn.addEventListener('touchstart', moveNoBtn, { passive: false });
+    noBtn.addEventListener('touchmove', moveNoBtn, { passive: false });
+    noBtn.addEventListener('click', function(e) { e.preventDefault(); moveNoBtn(); });
 
     function showPage2() {
       document.getElementById('page1').classList.add('hidden');
@@ -135,10 +185,14 @@
 
     function createExplosion() {
       const container = document.getElementById('explosionContainer');
-      for (let i = 0; i < 80; i++) {
-        const angle = (Math.PI * 2 * i) / 80 + Math.random() * 0.5;
-        const velocity = 150 + Math.random() * 350;
-        const size = 30 + Math.random() * 35;
+      const isMobile = window.innerWidth < 481;
+      const flowerCount = isMobile ? 50 : 80;
+      const velocityMultiplier = isMobile ? 0.7 : 1;
+      
+      for (let i = 0; i < flowerCount; i++) {
+        const angle = (Math.PI * 2 * i) / flowerCount + Math.random() * 0.5;
+        const velocity = (120 + Math.random() * 280) * velocityMultiplier;
+        const size = isMobile ? (25 + Math.random() * 25) : (30 + Math.random() * 35);
         const div = document.createElement('div');
         div.className = 'explosion-flower';
         div.innerHTML = getFlower(size);
@@ -161,8 +215,11 @@
 
     function createFallingFlowers() {
       const container = document.getElementById('fallingContainer');
-      for (let i = 0; i < 30; i++) {
-        const size = 30 + Math.random() * 20;
+      const isMobile = window.innerWidth < 481;
+      const flowerCount = isMobile ? 20 : 30;
+      
+      for (let i = 0; i < flowerCount; i++) {
+        const size = isMobile ? (25 + Math.random() * 15) : (30 + Math.random() * 20);
         const div = document.createElement('div');
         div.className = 'falling-flower';
         div.innerHTML = getFlower(size);
@@ -174,10 +231,12 @@
     }
 
     // Create background flowers for page 1
-    for (let i = 0; i < 12; i++) {
+    const isMobile = window.innerWidth < 481;
+    const bgFlowerCount = isMobile ? 8 : 12;
+    for (let i = 0; i < bgFlowerCount; i++) {
       const div = document.createElement('div');
       div.className = 'flower bg-flower';
-      div.innerHTML = getFlower(40);
+      div.innerHTML = getFlower(isMobile ? 30 : 40);
       div.style.left = Math.random() * 100 + '%';
       div.style.top = Math.random() * 100 + '%';
       div.style.animationDelay = Math.random() * 3 + 's';
