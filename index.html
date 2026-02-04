@@ -165,6 +165,44 @@
     
     .pulse { animation: pulse 1s ease-in-out infinite; }
     .big-heart { font-size: 5rem; animation: pulse 0.5s ease-in-out infinite; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; }
+
+    /* GLORY MOMENT */
+    .glory-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 150; pointer-events: none;
+    }
+    .glory-text {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 4rem; font-weight: bold; font-style: italic;
+      color: #fff; text-shadow: 0 0 20px rgba(233,30,99,0.9), 0 0 40px rgba(194,24,91,0.7), 0 0 80px rgba(136,14,79,0.5), 0 4px 8px rgba(0,0,0,0.3);
+      opacity: 0; transform: scale(0.3);
+      transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center; line-height: 1.3; padding: 0 20px;
+    }
+    .glory-text.show { opacity: 1; transform: scale(1); }
+    .glory-text.fade-out { opacity: 0; transform: scale(1.2); transition: opacity 1s ease-in, transform 1s ease-in; }
+
+    /* COUNTDOWN */
+    .countdown-section {
+      background: linear-gradient(135deg, rgba(136,14,79,0.08), rgba(194,24,91,0.08));
+      border: 2px solid #f48fb1; border-radius: 16px;
+      padding: 16px; margin-bottom: 16px;
+    }
+    .countdown-label {
+      font-family: 'Aref Ruqaa', Georgia, serif;
+      font-size: 1rem; color: #ad1457; margin-bottom: 10px;
+    }
+    .countdown-digits {
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
+    .countdown-unit {
+      background: linear-gradient(135deg, #e91e63, #c2185b);
+      color: white; border-radius: 12px; padding: 8px 10px; min-width: 60px;
+      box-shadow: 0 4px 12px rgba(194,24,91,0.3);
+    }
+    .countdown-unit .num { font-size: 1.5rem; font-weight: bold; display: block; }
+    .countdown-unit .lbl { font-size: 0.65rem; text-transform: uppercase; opacity: 0.9; display: block; }
     
     /* BACKGROUND ELEMENTS */
     .flower { position: absolute; pointer-events: none; z-index: 0; }
@@ -181,6 +219,10 @@
       h2 { font-size: 2rem; }
       .photo { width: 180px; height: 240px; }
       .arabic-text { font-size: 1.4rem; }
+      .glory-text { font-size: 5rem; }
+      .countdown-unit { min-width: 70px; padding: 10px 14px; }
+      .countdown-unit .num { font-size: 1.8rem; }
+      .countdown-unit .lbl { font-size: 0.7rem; }
     }
     
     @media (max-width: 360px) {
@@ -188,6 +230,9 @@
       .date { font-size: 1.5rem; }
       .btn-yes, .btn-no { padding: 10px 20px; font-size: 1rem; }
       .photo { width: 120px; height: 160px; }
+      .glory-text { font-size: 2.5rem; }
+      .countdown-unit { min-width: 50px; padding: 6px 8px; }
+      .countdown-unit .num { font-size: 1.2rem; }
     }
 
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -228,6 +273,9 @@
   <div id="page2" class="page hidden">
     <div id="explosionContainer"></div>
     <div id="fallingContainer"></div>
+    <div class="glory-overlay" id="gloryOverlay">
+      <div class="glory-text" id="gloryText">She said yes 💍</div>
+    </div>
     <div id="loadingHeart" class="big-heart">💕</div>
     
     <div id="content" class="card card2 hidden">
@@ -249,6 +297,16 @@
         <div class="more-text">🌷 More to come after signatures… 🌷</div>
       </div>
       
+      <div class="countdown-section">
+        <div class="countdown-label">💕 Together since 23.01 💕</div>
+        <div class="countdown-digits" id="countdown">
+          <div class="countdown-unit"><span class="num" id="cd-days">0</span><span class="lbl">Days</span></div>
+          <div class="countdown-unit"><span class="num" id="cd-hours">0</span><span class="lbl">Hours</span></div>
+          <div class="countdown-unit"><span class="num" id="cd-mins">0</span><span class="lbl">Minutes</span></div>
+          <div class="countdown-unit"><span class="num" id="cd-secs">0</span><span class="lbl">Seconds</span></div>
+        </div>
+      </div>
+
       <div class="footer"><span>💕</span><span>13.02</span><span>💕</span></div>
     </div>
   </div>
@@ -296,26 +354,65 @@
     // Fallback click
     noBtn.addEventListener('click', moveNoBtn);
 
+    /* ----- AUDIO ----- */
+    // IMPORTANT: Replace this URL with a direct link to your audio file.
+    // See instructions in the comment below.
+    let audioSrc = 'https://audio.com/layan-aljareri/audio/kan-andna-tahon-shr-allyaly-fyroz-kan-endena-tahoun-sahar-el-laialy-fairuz'; // <-- Put your audio file URL here (MP3/OGG/WAV)
+    let songAudio = null;
+    const SONG_START = 79;  // 1:19 in seconds
+    const SONG_END   = 120; // 2:00 in seconds
+
+    function playFairuz() {
+      if (!audioSrc) return;
+      try {
+        songAudio = new Audio(audioSrc);
+        songAudio.currentTime = SONG_START;
+        songAudio.play().catch(() => {});
+        // Stop at the end timestamp
+        songAudio.addEventListener('timeupdate', function() {
+          if (songAudio.currentTime >= SONG_END) {
+            songAudio.pause();
+          }
+        });
+      } catch(e) { /* audio not critical */ }
+    }
+
     /* ----- PAGE TRANSITIONS ----- */
     function showPage2() {
       const p1 = document.getElementById('page1');
       const p2 = document.getElementById('page2');
-      
+
       p1.classList.add('hidden');
       p2.classList.remove('hidden');
-      
-      // 1. Start Explosion
+
+      // 1. Start Explosion + play song
       setTimeout(createExplosion, 50);
-      
-      // 2. Hide loading heart & show Card 2 after animation
+      playFairuz();
+
+      // 2. Show "She said yes" glory text
+      setTimeout(() => {
+        document.getElementById('gloryText').classList.add('show');
+      }, 300);
+
+      // 3. Fade out glory text
+      setTimeout(() => {
+        document.getElementById('gloryText').classList.remove('show');
+        document.getElementById('gloryText').classList.add('fade-out');
+      }, 3000);
+
+      // 4. Hide loading heart & glory, show Card 2
       setTimeout(() => {
         document.getElementById('loadingHeart').classList.add('hidden');
+        document.getElementById('gloryOverlay').classList.add('hidden');
         const content = document.getElementById('content');
         content.classList.remove('hidden');
-        
+
         // Start falling flowers continuously
         createFallingFlowers();
-      }, 2000);
+
+        // Start countdown
+        startCountdown();
+      }, 4000);
     }
 
     /* ----- ANIMATIONS ----- */
@@ -389,6 +486,31 @@
       div.style.top = Math.random() * 100 + '%';
       div.style.animationDelay = Math.random() * 4 + 's';
       bgContainer.appendChild(div);
+    }
+
+    /* ----- COUNTDOWN TIMER ----- */
+    // 23 Jan 2026, 18:15 Egyptian time (UTC+2) = 16:15 UTC
+    const START_DATE = new Date(Date.UTC(2026, 0, 23, 16, 15, 0));
+
+    function updateCountdown() {
+      const now = new Date();
+      let diff = Math.floor((now - START_DATE) / 1000);
+      if (diff < 0) diff = 0;
+
+      const days  = Math.floor(diff / 86400);
+      const hours = Math.floor((diff % 86400) / 3600);
+      const mins  = Math.floor((diff % 3600) / 60);
+      const secs  = diff % 60;
+
+      document.getElementById('cd-days').textContent  = days;
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+    }
+
+    function startCountdown() {
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     }
   </script>
 </body>
