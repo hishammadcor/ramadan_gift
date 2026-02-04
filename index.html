@@ -183,6 +183,19 @@
     .glory-text.show { opacity: 1; transform: scale(1); }
     .glory-text.fade-out { opacity: 0; transform: scale(1.2); transition: opacity 1s ease-in, transform 1s ease-in; }
 
+    /* MUSIC PLAYER */
+    .music-section {
+      margin-bottom: 16px;
+    }
+    .music-label {
+      font-family: 'Aref Ruqaa', Georgia, serif;
+      font-size: 0.95rem; color: #ad1457; margin-bottom: 8px;
+    }
+    .sc-wrapper {
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(194,24,91,0.15);
+    }
+
     /* COUNTDOWN */
     .countdown-section {
       background: linear-gradient(135deg, rgba(136,14,79,0.08), rgba(194,24,91,0.08));
@@ -270,9 +283,6 @@
     </div>
   </div>
 
-  <!-- SoundCloud Widget API (player iframe created on tap) -->
-  <script src="https://w.soundcloud.com/player/api.js"></script>
-
   <div id="page2" class="page hidden">
     <div id="explosionContainer"></div>
     <div id="fallingContainer"></div>
@@ -300,6 +310,11 @@
         <div class="more-text">🌷 More to come after signatures… 🌷</div>
       </div>
       
+      <div class="music-section" id="musicSection">
+        <div class="music-label">🎵 Our song 🎵</div>
+        <div class="sc-wrapper" id="scWrapper"></div>
+      </div>
+
       <div class="countdown-section">
         <div class="countdown-label">💕 Together since 23.01 💕</div>
         <div class="countdown-digits" id="countdown">
@@ -357,37 +372,20 @@
     // Fallback click
     noBtn.addEventListener('click', moveNoBtn);
 
-    /* ----- AUDIO (SoundCloud Widget API) ----- */
-    const SONG_START_MS = 79000;  // 1:19
-    const SONG_END_MS   = 120000; // 2:00
-
+    /* ----- AUDIO ----- */
     function playFairuz() {
-      try {
-        // Create iframe on user tap so mobile browsers allow autoplay
-        const iframe = document.createElement('iframe');
-        iframe.id = 'sc-player';
+      // Inject visible SoundCloud player into the card so user can tap play on mobile
+      var wrapper = document.getElementById('scWrapper');
+      if (wrapper && !wrapper.hasChildNodes()) {
+        var iframe = document.createElement('iframe');
+        iframe.width = '100%';
+        iframe.height = '80';
+        iframe.scrolling = 'no';
+        iframe.frameBorder = 'no';
         iframe.allow = 'autoplay';
-        iframe.style.cssText = 'position:fixed;bottom:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;';
-        iframe.src = 'https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Ffairouz-music%2Fkan-endena-tahoun-sahar-el&auto_play=true&show_artwork=false';
-        document.body.appendChild(iframe);
-
-        var widget = SC.Widget(iframe);
-        var hasSeeked = false;
-        widget.bind(SC.Widget.Events.READY, function() {
-          widget.setVolume(80);
-        });
-        widget.bind(SC.Widget.Events.PLAY, function() {
-          if (!hasSeeked) {
-            hasSeeked = true;
-            widget.seekTo(SONG_START_MS);
-          }
-        });
-        widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
-          if (data.currentPosition >= SONG_END_MS) {
-            widget.pause();
-          }
-        });
-      } catch(e) { /* audio not critical */ }
+        iframe.src = 'https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Ffairouz-music%2Fkan-endena-tahoun-sahar-el&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=true&start_track=0';
+        wrapper.appendChild(iframe);
+      }
     }
 
     /* ----- PAGE TRANSITIONS ----- */
