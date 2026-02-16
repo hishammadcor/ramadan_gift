@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>رمضان كريم يا أنان 🌙</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== CONFIGURATION (Ramadan color theme) ===== */
+    :root {
+      --bg-dark: #1a0a2e;
+      --bg-mid: #2d1b69;
+      --gold: #ffd700;
+      --gold-light: #ffe566;
+      --pink: #e91e63;
+      --pink-dark: #c2185b;
+      --pink-light: #f48fb1;
+      --cream: #fff8e7;
+      --green: #2e7d32;
+      --white: #ffffff;
+    }
+
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Amiri', 'Aref Ruqaa', Georgia, serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      background-color: var(--bg-dark);
+      color: var(--cream);
+      direction: rtl;
+    }
+
+    /* ===== PHASE CONTAINERS ===== */
+    .phase {
+      min-height: 100vh;
+      min-height: 100dvh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ===== PHASE 1: COUNTDOWN ===== */
+    #phase1 {
+      background: linear-gradient(135deg, #1a0a2e 0%, #2d1b69 30%, #4a148c 60%, #1a0a2e 100%);
+    }
+
+    .countdown-card {
+      background: linear-gradient(145deg, rgba(45,27,105,0.9), rgba(26,10,46,0.95));
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 0 40px rgba(255,215,0,0.15), 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .crescent-icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .countdown-title {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+      text-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+
+    .countdown-subtitle {
+      font-family: 'Amiri', serif;
+      font-size: 1.1rem;
+      color: var(--pink-light);
+      margin-bottom: 24px;
+    }
+
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .timer-unit {
+      background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05));
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 14px;
+      padding: 12px 14px;
+      min-width: 70px;
+    }
+
+    .timer-unit .num {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--gold);
+      display: block;
+      font-family: 'Amiri', serif;
+    }
+
+    .timer-unit .lbl {
+      font-size: 0.7rem;
+      color: var(--gold-light);
+      display: block;
+      opacity: 0.8;
+    }
+
+    .countdown-message {
+      font-family: 'Amiri', serif;
+      font-size: 1rem;
+      color: var(--pink-light);
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+
+    /* ===== PHASE 2: GREETING CARD ===== */
+    #phase2 {
+      background: linear-gradient(135deg, #1a0a2e 0%, #4a148c 50%, #1a0a2e 100%);
+    }
+
+    .greeting-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    .greeting-text {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: var(--gold);
+      text-shadow:
+        0 0 20px rgba(255,215,0,0.8),
+        0 0 40px rgba(255,215,0,0.5),
+        0 0 80px rgba(255,215,0,0.3),
+        0 4px 8px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: scale(0.3);
+      transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+      line-height: 1.5;
+      padding: 0 20px;
+    }
+
+    .greeting-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .greeting-text.fade-out {
+      opacity: 0;
+      transform: scale(1.1);
+      transition: opacity 1.5s ease-in, transform 1.5s ease-in;
+    }
+
+    .greeting-card {
+      background: linear-gradient(145deg, rgba(45,27,105,0.95), rgba(26,10,46,0.98));
+      border: 3px solid var(--gold);
+      border-radius: 24px;
+      padding: 40px 24px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 0 60px rgba(255,215,0,0.2), 0 20px 60px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease-out, glowGold 3s ease-in-out infinite;
+    }
+
+    .greeting-card h2 {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .greeting-card .bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .greeting-card .message {
+      font-family: 'Amiri', serif;
+      font-size: 1.15rem;
+      color: var(--cream);
+      line-height: 2;
+      margin-bottom: 20px;
+    }
+
+    .geometric-border {
+      width: 80%;
+      height: 3px;
+      margin: 16px auto;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    .btn-continue {
+      padding: 14px 40px;
+      background: linear-gradient(135deg, var(--gold), #e6c200);
+      color: var(--bg-dark);
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Aref Ruqaa', serif;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-continue:active { transform: scale(0.95); }
+
+    /* ===== PHASE 3: DAILY VERSES ===== */
+    #phase3 {
+      background: linear-gradient(180deg, #1a0a2e 0%, #2d1b69 50%, #1a0a2e 100%);
+      justify-content: flex-start;
+      padding-top: 30px;
+      padding-bottom: 40px;
+    }
+
+    .phase3-header {
+      text-align: center;
+      margin-bottom: 24px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .phase3-header h1 {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .phase3-header .day-label {
+      font-family: 'Amiri', serif;
+      font-size: 1.1rem;
+      color: var(--pink-light);
+    }
+
+    .verses-container {
+      max-width: 600px;
+      width: 100%;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Today's verse (highlighted) */
+    .verse-card {
+      background: linear-gradient(145deg, rgba(45,27,105,0.9), rgba(26,10,46,0.95));
+      border: 2px solid rgba(255,215,0,0.3);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .verse-card.today {
+      border-color: var(--gold);
+      box-shadow: 0 0 30px rgba(255,215,0,0.15);
+    }
+
+    .verse-card.locked {
+      opacity: 0.6;
+    }
+
+    .verse-day {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), #e6c200);
+      color: var(--bg-dark);
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .verse-day.past {
+      background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.15));
+      color: var(--gold);
+    }
+
+    .verse-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.3rem;
+      color: var(--cream);
+      line-height: 2.2;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .verse-reference {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 0.9rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .verse-reflection {
+      font-family: 'Amiri', serif;
+      font-size: 0.95rem;
+      color: var(--pink-light);
+      text-align: center;
+      line-height: 1.8;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .audio-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .play-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05));
+      color: var(--gold);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .play-btn:active {
+      transform: scale(0.9);
+      background: rgba(255,215,0,0.25);
+    }
+
+    .play-btn.playing {
+      background: rgba(255,215,0,0.25);
+      box-shadow: 0 0 15px rgba(255,215,0,0.3);
+    }
+
+    .audio-label {
+      font-family: 'Amiri', serif;
+      font-size: 0.85rem;
+      color: rgba(255,215,0,0.7);
+    }
+
+    .locked-message {
+      font-family: 'Amiri', serif;
+      font-size: 1.1rem;
+      color: rgba(255,215,0,0.5);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .locked-message .lock-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ===== DECORATIONS ===== */
+    .stars-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--gold-light);
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .lantern {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.15;
+      animation: sway 4s ease-in-out infinite;
+    }
+
+    #fallingStars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .falling-star {
+      position: absolute;
+      top: -20px;
+      color: var(--gold-light);
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes glowGold {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.2); }
+      50% { box-shadow: 0 0 40px rgba(255,215,0,0.4); }
+    }
+
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes falling {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 500px) {
+      .countdown-card { padding: 50px 40px; }
+      .countdown-title { font-size: 2.5rem; }
+      .timer-unit .num { font-size: 2.5rem; }
+      .timer-unit { min-width: 80px; }
+      .greeting-text { font-size: 4.5rem; }
+      .greeting-card { padding: 50px 36px; }
+      .greeting-card h2 { font-size: 2.5rem; }
+      .verse-text { font-size: 1.5rem; }
+      .phase3-header h1 { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 360px) {
+      .countdown-title { font-size: 1.5rem; }
+      .timer-unit { min-width: 55px; padding: 8px 10px; }
+      .timer-unit .num { font-size: 1.5rem; }
+      .greeting-text { font-size: 2.5rem; }
+      .greeting-card h2 { font-size: 1.6rem; }
+      .greeting-card .message { font-size: 1rem; }
+      .verse-text { font-size: 1.1rem; }
+      .verse-card { padding: 18px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== STARS BACKGROUND (all phases) ===== -->
+  <div class="stars-container" id="starsContainer"></div>
+  <div id="fallingStars"></div>
+
+  <!-- ===== PHASE 1: COUNTDOWN ===== -->
+  <div id="phase1" class="phase hidden">
+    <div class="countdown-card">
+      <div class="crescent-icon">🌙</div>
+      <h1 class="countdown-title">رمضان قادم...</h1>
+      <p class="countdown-subtitle">كل عام وأنتِ بخير يا أنان</p>
+
+      <div class="geometric-border"></div>
+
+      <div class="countdown-timer" id="ramadanCountdown">
+        <div class="timer-unit">
+          <span class="num" id="ct-days">0</span>
+          <span class="lbl">يوم</span>
+        </div>
+        <div class="timer-unit">
+          <span class="num" id="ct-hours">00</span>
+          <span class="lbl">ساعة</span>
+        </div>
+        <div class="timer-unit">
+          <span class="num" id="ct-mins">00</span>
+          <span class="lbl">دقيقة</span>
+        </div>
+        <div class="timer-unit">
+          <span class="num" id="ct-secs">00</span>
+          <span class="lbl">ثانية</span>
+        </div>
+      </div>
+
+      <div class="geometric-border"></div>
+
+      <p class="countdown-message">
+        ✨ أول رمضان لنا معًا ✨
+        <br>
+        اللهم بلّغنا رمضان وبارك لنا فيه
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 2: GREETING CARD ===== -->
+  <div id="phase2" class="phase hidden">
+    <div class="greeting-overlay" id="greetingOverlay">
+      <div class="greeting-text" id="greetingText">
+        🌙 رمضان كريم 🌙
+        <br>
+        يا أنان
+      </div>
+    </div>
+
+    <div id="greetingCard" class="greeting-card hidden">
+      <div style="font-size: 3rem; margin-bottom: 12px;">🌙✨🌙</div>
+      <div class="bismillah">بسم الله الرحمن الرحيم</div>
+
+      <h2>رمضان كريم يا أنان</h2>
+
+      <div class="geometric-border"></div>
+
+      <p class="message">
+        أهلاً بأحلى رمضان معاكِ 💕
+        <br><br>
+        اللهم اجعل هذا الشهر الكريم شهر خير وبركة علينا، واجمعنا فيه على طاعتك، وبارك في حبنا ومستقبلنا.
+        <br><br>
+        جهّزتلك هدية بسيطة: كل يوم بعد الإفطار هتلاقي آية من كتاب الله عن الحب والمودة والرحمة بين الأزواج، بصوت الشيخ المنشاوي.
+        <br><br>
+        ✨ كل يوم آية... كل يوم نور ✨
+      </p>
+
+      <div class="geometric-border"></div>
+
+      <button class="btn-continue" onclick="showPhase3()">
+        يلا نبدأ 🌙
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 3: DAILY VERSES ===== -->
+  <div id="phase3" class="phase hidden">
+    <div class="phase3-header">
+      <h1>🌙 آيات الحب والرحمة 🌙</h1>
+      <p class="day-label" id="dayLabel"></p>
+    </div>
+
+    <div class="verses-container" id="versesContainer">
+      <!-- Verse cards generated by JS -->
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================
+       CONFIGURATION — Change Ramadan start date here
+       ========================================================== */
+    // Ramadan 2026 start: Feb 19, Thursday (change to 18 if needed)
+    // This is midnight Cairo time (UTC+2) on the first day of Ramadan
+    const RAMADAN_START = new Date(Date.UTC(2026, 1, 18, 22, 0, 0)); // Feb 19 00:00 Cairo = Feb 18 22:00 UTC
+
+    /* ==========================================================
+       VERSE DATA — 30 days of Quran verses
+       ========================================================== */
+    const VERSES = [
+      {
+        day: 1,
+        surah: 'الروم',
+        ayah: '٢١',
+        surahNum: 30, ayahNum: 21,
+        text: 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ',
+        reflection: 'السكن والمودة والرحمة... ثلاث هدايا ربانية في كل زواج'
+      },
+      {
+        day: 2,
+        surah: 'البقرة',
+        ayah: '١٨٧',
+        surahNum: 2, ayahNum: 187,
+        text: 'هُنَّ لِبَاسٌ لَّكُمْ وَأَنتُمْ لِبَاسٌ لَّهُنَّ',
+        reflection: 'اللباس ستر وقرب ودفء... وهذا هو الزواج'
+      },
+      {
+        day: 3,
+        surah: 'الفرقان',
+        ayah: '٧٤',
+        surahNum: 25, ayahNum: 74,
+        text: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا',
+        reflection: 'دعاء عباد الرحمن... ربنا يجعلنا قرة عين لبعض'
+      },
+      {
+        day: 4,
+        surah: 'النساء',
+        ayah: '١',
+        surahNum: 4, ayahNum: 1,
+        text: 'يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمُ الَّذِي خَلَقَكُم مِّن نَّفْسٍ وَاحِدَةٍ وَخَلَقَ مِنْهَا زَوْجَهَا وَبَثَّ مِنْهُمَا رِجَالًا كَثِيرًا وَنِسَاءً',
+        reflection: 'من نفس واحدة... خلقنا الله لنكمّل بعض'
+      },
+      {
+        day: 5,
+        surah: 'الأعراف',
+        ayah: '١٨٩',
+        surahNum: 7, ayahNum: 189,
+        text: 'هُوَ الَّذِي خَلَقَكُم مِّن نَّفْسٍ وَاحِدَةٍ وَجَعَلَ مِنْهَا زَوْجَهَا لِيَسْكُنَ إِلَيْهَا',
+        reflection: 'السكينة هي أساس كل علاقة مباركة'
+      },
+      {
+        day: 6,
+        surah: 'النحل',
+        ayah: '٧٢',
+        surahNum: 16, ayahNum: 72,
+        text: 'وَاللَّهُ جَعَلَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا وَجَعَلَ لَكُم مِّنْ أَزْوَاجِكُم بَنِينَ وَحَفَدَةً وَرَزَقَكُم مِّنَ الطَّيِّبَاتِ',
+        reflection: 'نعمة الزواج والذرية من أعظم نعم الله'
+      },
+      {
+        day: 7,
+        surah: 'الشورى',
+        ayah: '١١',
+        surahNum: 42, ayahNum: 11,
+        text: 'فَاطِرُ السَّمَاوَاتِ وَالْأَرْضِ ۚ جَعَلَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا',
+        reflection: 'الذي فطر السماوات والأرض هو الذي قدّر لنا أن نكون معًا'
+      },
+      {
+        day: 8,
+        surah: 'طه',
+        ayah: '٣٩',
+        surahNum: 20, ayahNum: 39,
+        text: 'وَأَلْقَيْتُ عَلَيْكَ مَحَبَّةً مِّنِّي',
+        reflection: 'المحبة هدية من الله... يضعها في القلوب'
+      },
+      {
+        day: 9,
+        surah: 'الحجرات',
+        ayah: '١٣',
+        surahNum: 49, ayahNum: 13,
+        text: 'يَا أَيُّهَا النَّاسُ إِنَّا خَلَقْنَاكُم مِّن ذَكَرٍ وَأُنثَىٰ وَجَعَلْنَاكُمْ شُعُوبًا وَقَبَائِلَ لِتَعَارَفُوا',
+        reflection: 'خلقنا الله لنتعارف ونتقارب... والزواج أجمل تعارف'
+      },
+      {
+        day: 10,
+        surah: 'يس',
+        ayah: '٣٦',
+        surahNum: 36, ayahNum: 36,
+        text: 'سُبْحَانَ الَّذِي خَلَقَ الْأَزْوَاجَ كُلَّهَا مِمَّا تُنبِتُ الْأَرْضُ وَمِنْ أَنفُسِهِمْ وَمِمَّا لَا يَعْلَمُونَ',
+        reflection: 'سبحان الخالق الذي جعل في كل شيء زوجين'
+      },
+      {
+        day: 11,
+        surah: 'الذاريات',
+        ayah: '٤٩',
+        surahNum: 51, ayahNum: 49,
+        text: 'وَمِن كُلِّ شَيْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُونَ',
+        reflection: 'الزوجية سنّة كونية... في كل شيء'
+      },
+      {
+        day: 12,
+        surah: 'النبأ',
+        ayah: '٨',
+        surahNum: 78, ayahNum: 8,
+        text: 'وَخَلَقْنَاكُمْ أَزْوَاجًا',
+        reflection: 'آية قصيرة لكن معناها عميق... خُلقنا لنكون أزواجًا'
+      },
+      {
+        day: 13,
+        surah: 'النساء',
+        ayah: '١٩',
+        surahNum: 4, ayahNum: 19,
+        text: 'وَعَاشِرُوهُنَّ بِالْمَعْرُوفِ',
+        reflection: 'المعاشرة بالمعروف أساس كل بيت سعيد'
+      },
+      {
+        day: 14,
+        surah: 'البقرة',
+        ayah: '٢٢٨',
+        surahNum: 2, ayahNum: 228,
+        text: 'وَلَهُنَّ مِثْلُ الَّذِي عَلَيْهِنَّ بِالْمَعْرُوفِ',
+        reflection: 'الحقوق والواجبات بالتساوي والمعروف'
+      },
+      {
+        day: 15,
+        surah: 'التوبة',
+        ayah: '٧١',
+        surahNum: 9, ayahNum: 71,
+        text: 'وَالْمُؤْمِنُونَ وَالْمُؤْمِنَاتُ بَعْضُهُمْ أَوْلِيَاءُ بَعْضٍ',
+        reflection: 'الولاية والسند... المؤمنون أولياء بعض'
+      },
+      {
+        day: 16,
+        surah: 'آل عمران',
+        ayah: '١٩٥',
+        surahNum: 3, ayahNum: 195,
+        text: 'بَعْضُكُم مِّن بَعْضٍ',
+        reflection: 'بعضنا من بعض... لا نكتمل إلا معًا'
+      },
+      {
+        day: 17,
+        surah: 'النور',
+        ayah: '٣٢',
+        surahNum: 24, ayahNum: 32,
+        text: 'وَأَنكِحُوا الْأَيَامَىٰ مِنكُمْ وَالصَّالِحِينَ مِنْ عِبَادِكُمْ وَإِمَائِكُمْ ۚ إِن يَكُونُوا فُقَرَاءَ يُغْنِهِمُ اللَّهُ مِن فَضْلِهِ',
+        reflection: 'الزواج باب رزق... والله يغني من فضله'
+      },
+      {
+        day: 18,
+        surah: 'الرعد',
+        ayah: '٢٨',
+        surahNum: 13, ayahNum: 28,
+        text: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',
+        reflection: 'الطمأنينة في ذكر الله... وفي البيت الذي يُذكر فيه الله'
+      },
+      {
+        day: 19,
+        surah: 'الفتح',
+        ayah: '٤',
+        surahNum: 48, ayahNum: 4,
+        text: 'هُوَ الَّذِي أَنزَلَ السَّكِينَةَ فِي قُلُوبِ الْمُؤْمِنِينَ',
+        reflection: 'السكينة نعمة يُنزلها الله على قلوب المؤمنين'
+      },
+      {
+        day: 20,
+        surah: 'البقرة',
+        ayah: '٢٢٢',
+        surahNum: 2, ayahNum: 222,
+        text: 'إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ',
+        reflection: 'رمضان شهر التوبة والتطهر... نبدأ صفحة جديدة معًا'
+      },
+      {
+        day: 21,
+        surah: 'الرعد',
+        ayah: '٣٨',
+        surahNum: 13, ayahNum: 38,
+        text: 'وَلَقَدْ أَرْسَلْنَا رُسُلًا مِّن قَبْلِكَ وَجَعَلْنَا لَهُمْ أَزْوَاجًا وَذُرِّيَّةً',
+        reflection: 'حتى الأنبياء كان لهم أزواج وذرية... الزواج سنة الأنبياء'
+      },
+      {
+        day: 22,
+        surah: 'الزخرف',
+        ayah: '٧٠',
+        surahNum: 43, ayahNum: 70,
+        text: 'ادْخُلُوا الْجَنَّةَ أَنتُمْ وَأَزْوَاجُكُمْ تُحْبَرُونَ',
+        reflection: 'ربنا يجمعنا في الجنة كما جمعنا في الدنيا'
+      },
+      {
+        day: 23,
+        surah: 'يس',
+        ayah: '٥٦',
+        surahNum: 36, ayahNum: 56,
+        text: 'هُمْ وَأَزْوَاجُهُمْ فِي ظِلَالٍ عَلَى الْأَرَائِكِ مُتَّكِئُونَ',
+        reflection: 'في الجنة... الأزواج معًا في ظلال ونعيم'
+      },
+      {
+        day: 24,
+        surah: 'غافر',
+        ayah: '٨',
+        surahNum: 40, ayahNum: 8,
+        text: 'رَبَّنَا وَأَدْخِلْهُمْ جَنَّاتِ عَدْنٍ الَّتِي وَعَدتَّهُمْ وَمَن صَلَحَ مِنْ آبَائِهِمْ وَأَزْوَاجِهِمْ وَذُرِّيَّاتِهِمْ',
+        reflection: 'دعاء الملائكة أن يجمع الله الأزواج والذرية في الجنة'
+      },
+      {
+        day: 25,
+        surah: 'الطلاق',
+        ayah: '٣',
+        surahNum: 65, ayahNum: 3,
+        text: 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ',
+        reflection: 'التوكل على الله أساس كل خطوة في حياتنا'
+      },
+      {
+        day: 26,
+        surah: 'إبراهيم',
+        ayah: '٤٠',
+        surahNum: 14, ayahNum: 40,
+        text: 'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ',
+        reflection: 'دعاء سيدنا إبراهيم لنفسه ولذريته... ندعو بمثله'
+      },
+      {
+        day: 27,
+        surah: 'الفرقان',
+        ayah: '٧٥',
+        surahNum: 25, ayahNum: 75,
+        text: 'أُولَٰئِكَ يُجْزَوْنَ الْغُرْفَةَ بِمَا صَبَرُوا وَيُلَقَّوْنَ فِيهَا تَحِيَّةً وَسَلَامًا',
+        reflection: 'ليلة القدر... ربنا يجعلنا من أهل الغرفة والسلام'
+      },
+      {
+        day: 28,
+        surah: 'الرحمن',
+        ayah: '٦٠',
+        surahNum: 55, ayahNum: 60,
+        text: 'هَلْ جَزَاءُ الْإِحْسَانِ إِلَّا الْإِحْسَانُ',
+        reflection: 'أحسنوا... فإن الله يحب المحسنين'
+      },
+      {
+        day: 29,
+        surah: 'البقرة',
+        ayah: '٢٨٦',
+        surahNum: 2, ayahNum: 286,
+        text: 'لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا',
+        reflection: 'ربنا رحيم بنا... لا يكلفنا فوق طاقتنا'
+      },
+      {
+        day: 30,
+        surah: 'آل عمران',
+        ayah: '٨',
+        surahNum: 3, ayahNum: 8,
+        text: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ الْوَهَّابُ',
+        reflection: 'آخر يوم في رمضان... ربنا يثبت قلوبنا ويهبنا رحمة من عنده'
+      }
+    ];
+
+    /* ==========================================================
+       IFTAR TIMES — Cairo, Egypt, Ramadan 2026 (approximate Maghrib)
+       Format: [hour, minute] in Cairo local time (UTC+2)
+       ========================================================== */
+    const IFTAR_TIMES = [
+      [17, 46], // Day 1  - Feb 19
+      [17, 47], // Day 2  - Feb 20
+      [17, 47], // Day 3  - Feb 21
+      [17, 48], // Day 4  - Feb 22
+      [17, 49], // Day 5  - Feb 23
+      [17, 49], // Day 6  - Feb 24
+      [17, 50], // Day 7  - Feb 25
+      [17, 51], // Day 8  - Feb 26
+      [17, 51], // Day 9  - Feb 27
+      [17, 52], // Day 10 - Feb 28
+      [17, 53], // Day 11 - Mar 1
+      [17, 53], // Day 12 - Mar 2
+      [17, 54], // Day 13 - Mar 3
+      [17, 54], // Day 14 - Mar 4
+      [17, 55], // Day 15 - Mar 5
+      [17, 55], // Day 16 - Mar 6
+      [17, 56], // Day 17 - Mar 7
+      [17, 57], // Day 18 - Mar 8
+      [17, 57], // Day 19 - Mar 9
+      [17, 58], // Day 20 - Mar 10
+      [17, 58], // Day 21 - Mar 11
+      [17, 59], // Day 22 - Mar 12
+      [17, 59], // Day 23 - Mar 13
+      [18, 0],  // Day 24 - Mar 14
+      [18, 0],  // Day 25 - Mar 15
+      [18, 1],  // Day 26 - Mar 16
+      [18, 1],  // Day 27 - Mar 17
+      [18, 2],  // Day 28 - Mar 18
+      [18, 2],  // Day 29 - Mar 19
+      [18, 3],  // Day 30 - Mar 20
+    ];
+
+    /* ==========================================================
+       AUDIO URL BUILDER
+       ========================================================== */
+    function getAudioUrl(surahNum, ayahNum) {
+      const s = String(surahNum).padStart(3, '0');
+      const a = String(ayahNum).padStart(3, '0');
+      return `https://everyayah.com/data/Minshawy_Murattal_128kbps/${s}${a}.mp3`;
+    }
+
+    /* ==========================================================
+       DATE HELPERS — All times in Cairo (UTC+2)
+       ========================================================== */
+    function getCairoNow() {
+      const now = new Date();
+      // Get UTC time then add 2 hours for Cairo
+      const cairoOffset = 2 * 60 * 60 * 1000;
+      return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + cairoOffset);
+    }
+
+    function getRamadanDay() {
+      const cairo = getCairoNow();
+      const ramadanStartLocal = new Date(RAMADAN_START.getTime() + (2 * 60 * 60 * 1000));
+      const diffMs = cairo - ramadanStartLocal;
+      if (diffMs < 0) return 0; // Before Ramadan
+      const dayNum = Math.floor(diffMs / (24 * 60 * 60 * 1000)) + 1;
+      return Math.min(dayNum, 30);
+    }
+
+    function isAfterIftar(dayIndex) {
+      // dayIndex is 0-based (day 1 = index 0)
+      if (dayIndex < 0 || dayIndex >= IFTAR_TIMES.length) return false;
+      const cairo = getCairoNow();
+      const iftarH = IFTAR_TIMES[dayIndex][0];
+      const iftarM = IFTAR_TIMES[dayIndex][1];
+      const cairoH = cairo.getHours();
+      const cairoM = cairo.getMinutes();
+      // Unlock 5 minutes after iftar
+      const unlockM = iftarM + 5;
+      const unlockH = iftarH + Math.floor(unlockM / 60);
+      const finalM = unlockM % 60;
+      return (cairoH > unlockH) || (cairoH === unlockH && cairoM >= finalM);
+    }
+
+    /* ==========================================================
+       STARS DECORATION
+       ========================================================== */
+    function createStars() {
+      const container = document.getElementById('starsContainer');
+      const count = window.innerWidth < 500 ? 50 : 100;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (2 + Math.random() * 3) + 's';
+        const size = 1 + Math.random() * 3;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        container.appendChild(star);
+      }
+    }
+
+    function startFallingStars() {
+      const container = document.getElementById('fallingStars');
+      const symbols = ['✦', '✧', '⋆', '🌙', '✨'];
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.className = 'falling-star';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = (0.6 + Math.random() * 0.8) + 'rem';
+        const duration = 6 + Math.random() * 4;
+        el.style.animation = `falling ${duration}s linear forwards`;
+        container.appendChild(el);
+        setTimeout(() => el.remove(), duration * 1000);
+      }, 500);
+    }
+
+    /* ==========================================================
+       PHASE 1: COUNTDOWN
+       ========================================================== */
+    let countdownInterval;
+
+    function startCountdown() {
+      function update() {
+        const now = new Date();
+        let diff = Math.floor((RAMADAN_START - now) / 1000);
+        if (diff <= 0) {
+          clearInterval(countdownInterval);
+          // Transition to Phase 2
+          showPhase2();
+          return;
+        }
+        const days = Math.floor(diff / 86400);
+        const hours = Math.floor((diff % 86400) / 3600);
+        const mins = Math.floor((diff % 3600) / 60);
+        const secs = diff % 60;
+        document.getElementById('ct-days').textContent = days;
+        document.getElementById('ct-hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('ct-mins').textContent = String(mins).padStart(2, '0');
+        document.getElementById('ct-secs').textContent = String(secs).padStart(2, '0');
+      }
+      update();
+      countdownInterval = setInterval(update, 1000);
+    }
+
+    /* ==========================================================
+       PHASE 2: GREETING CARD
+       ========================================================== */
+    function showPhase2() {
+      document.getElementById('phase1').classList.add('hidden');
+      document.getElementById('phase2').classList.remove('hidden');
+
+      // Show greeting text with animation
+      setTimeout(() => {
+        document.getElementById('greetingText').classList.add('show');
+      }, 300);
+
+      // Fade out greeting text
+      setTimeout(() => {
+        const gt = document.getElementById('greetingText');
+        gt.classList.remove('show');
+        gt.classList.add('fade-out');
+      }, 3500);
+
+      // Show greeting card
+      setTimeout(() => {
+        document.getElementById('greetingOverlay').classList.add('hidden');
+        document.getElementById('greetingCard').classList.remove('hidden');
+      }, 5000);
+    }
+
+    /* ==========================================================
+       PHASE 3: DAILY VERSES
+       ========================================================== */
+    let currentAudio = null;
+    let currentPlayBtn = null;
+
+    function showPhase3() {
+      document.getElementById('phase2').classList.add('hidden');
+      document.getElementById('phase3').classList.remove('hidden');
+      renderVerses();
+      // Refresh verse states every minute (for iftar time checking)
+      setInterval(renderVerses, 60000);
+    }
+
+    function renderVerses() {
+      const container = document.getElementById('versesContainer');
+      const dayLabel = document.getElementById('dayLabel');
+      const currentDay = getRamadanDay();
+
+      dayLabel.textContent = currentDay > 0
+        ? `اليوم ${currentDay} من رمضان`
+        : 'رمضان كريم';
+
+      container.innerHTML = '';
+
+      for (let i = 0; i < VERSES.length; i++) {
+        const verse = VERSES[i];
+        const dayNum = verse.day;
+
+        if (dayNum > currentDay) break; // Don't show future days at all
+
+        const isToday = (dayNum === currentDay);
+        const iftarPassed = isAfterIftar(dayNum - 1);
+        const isUnlocked = (dayNum < currentDay) || (isToday && iftarPassed);
+
+        const card = document.createElement('div');
+        card.className = 'verse-card';
+        if (isToday) card.classList.add('today');
+        if (!isUnlocked) card.classList.add('locked');
+        card.style.animation = `slideUp 0.5s ease-out ${i * 0.05}s both`;
+
+        if (isUnlocked) {
+          card.innerHTML = `
+            <div class="verse-day ${dayNum < currentDay ? 'past' : ''}">اليوم ${dayNum}</div>
+            <div class="verse-text">${verse.text}</div>
+            <div class="verse-reference">سورة ${verse.surah} — الآية ${verse.ayah}</div>
+            <div class="verse-reflection">${verse.reflection}</div>
+            <div class="audio-player">
+              <button class="play-btn" onclick="toggleAudio(this, ${verse.surahNum}, ${verse.ayahNum})" aria-label="تشغيل">▶</button>
+              <span class="audio-label">الشيخ المنشاوي</span>
+            </div>
+          `;
+        } else {
+          // Today but before iftar
+          card.innerHTML = `
+            <div class="verse-day">اليوم ${dayNum}</div>
+            <div class="locked-message">
+              <span class="lock-icon">🔒</span>
+              آية اليوم بعد الإفطار إن شاء الله
+              <br>
+              <small style="opacity:0.6">الإفطار الساعة ${IFTAR_TIMES[dayNum-1][0]}:${String(IFTAR_TIMES[dayNum-1][1]).padStart(2,'0')}</small>
+            </div>
+          `;
+        }
+
+        // Insert at beginning so newest is on top
+        container.insertBefore(card, container.firstChild);
+      }
+    }
+
+    function toggleAudio(btn, surahNum, ayahNum) {
+      const url = getAudioUrl(surahNum, ayahNum);
+
+      // If same audio is playing, pause it
+      if (currentAudio && currentPlayBtn === btn) {
+        if (currentAudio.paused) {
+          currentAudio.play();
+          btn.textContent = '⏸';
+          btn.classList.add('playing');
+        } else {
+          currentAudio.pause();
+          btn.textContent = '▶';
+          btn.classList.remove('playing');
+        }
+        return;
+      }
+
+      // Stop any current audio
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+        if (currentPlayBtn) {
+          currentPlayBtn.textContent = '▶';
+          currentPlayBtn.classList.remove('playing');
+        }
+      }
+
+      // Play new audio
+      currentAudio = new Audio(url);
+      currentPlayBtn = btn;
+      btn.textContent = '⏸';
+      btn.classList.add('playing');
+
+      currentAudio.play().catch(() => {
+        btn.textContent = '▶';
+        btn.classList.remove('playing');
+      });
+
+      currentAudio.addEventListener('ended', () => {
+        btn.textContent = '▶';
+        btn.classList.remove('playing');
+        currentAudio = null;
+        currentPlayBtn = null;
+      });
+    }
+
+    /* ==========================================================
+       INITIALIZATION
+       ========================================================== */
+    function init() {
+      createStars();
+      startFallingStars();
+
+      const ramadanDay = getRamadanDay();
+
+      if (ramadanDay === 0) {
+        // Before Ramadan → show countdown
+        document.getElementById('phase1').classList.remove('hidden');
+        startCountdown();
+      } else if (ramadanDay === 1 && !localStorage.getItem('ramadan2026_greeted')) {
+        // First day of Ramadan, first visit → show greeting
+        document.getElementById('phase2').classList.remove('hidden');
+        localStorage.setItem('ramadan2026_greeted', 'true');
+        setTimeout(() => {
+          document.getElementById('greetingText').classList.add('show');
+        }, 300);
+        setTimeout(() => {
+          const gt = document.getElementById('greetingText');
+          gt.classList.remove('show');
+          gt.classList.add('fade-out');
+        }, 3500);
+        setTimeout(() => {
+          document.getElementById('greetingOverlay').classList.add('hidden');
+          document.getElementById('greetingCard').classList.remove('hidden');
+        }, 5000);
+      } else {
+        // During Ramadan (after greeting) → show verses
+        document.getElementById('phase3').classList.remove('hidden');
+        renderVerses();
+        setInterval(renderVerses, 60000);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
