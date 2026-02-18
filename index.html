@@ -848,11 +848,12 @@
 
   <script>
     /* ==========================================================
-       CONFIGURATION — Change Ramadan start date here
+       CONFIGURATION — Two key dates:
+       1) GREETING_TRIGGER: Wed Feb 18 Maghrib (~17:45 Cairo) — countdown ends, greeting shows
+       2) RAMADAN_DAY1: Thu Feb 19 00:00 Cairo — Day 1 starts, verse day counting begins
        ========================================================== */
-    // Ramadan 2026 start: Feb 19, Thursday (change to 18 if needed)
-    // This is midnight Cairo time (UTC+2) on the first day of Ramadan
-    const RAMADAN_START = new Date(Date.UTC(2026, 1, 18, 15, 45, 0));  // Feb 19 00:00 Cairo = Feb 18 22:00 UTC
+    const GREETING_TRIGGER = new Date(Date.UTC(2026, 1, 18, 15, 45, 0)); // Feb 18 17:45 Cairo
+    const RAMADAN_DAY1 = new Date(Date.UTC(2026, 1, 18, 22, 0, 0));     // Feb 19 00:00 Cairo
 
     /* ==========================================================
        VERSE DATA — 30 days of Quran verses
@@ -1128,11 +1129,24 @@
 
     function getRamadanDay() {
       const cairo = getCairoNow();
-      const ramadanStartLocal = new Date(RAMADAN_START.getTime() + (2 * 60 * 60 * 1000));
-      const diffMs = cairo - ramadanStartLocal;
-      if (diffMs < 0) return 0; // Before Ramadan
+      const day1Local = new Date(RAMADAN_DAY1.getTime() + (2 * 60 * 60 * 1000));
+      const diffMs = cairo - day1Local;
+      if (diffMs < 0) return 0; // Before Day 1 (Thu)
       const dayNum = Math.floor(diffMs / (24 * 60 * 60 * 1000)) + 1;
       return Math.min(dayNum, 30);
+    }
+
+    function isInGreetingWindow() {
+      const cairo = getCairoNow();
+      const triggerLocal = new Date(GREETING_TRIGGER.getTime() + (2 * 60 * 60 * 1000));
+      const day1Local = new Date(RAMADAN_DAY1.getTime() + (2 * 60 * 60 * 1000));
+      return cairo >= triggerLocal && cairo < day1Local;
+    }
+
+    function isBeforeGreeting() {
+      const cairo = getCairoNow();
+      const triggerLocal = new Date(GREETING_TRIGGER.getTime() + (2 * 60 * 60 * 1000));
+      return cairo < triggerLocal;
     }
 
     function isAfterIftar(dayIndex) {
@@ -1194,10 +1208,10 @@
     function startCountdown() {
       function update() {
         const now = new Date();
-        let diff = Math.floor((RAMADAN_START - now) / 1000);
+        let diff = Math.floor((GREETING_TRIGGER - now) / 1000);
         if (diff <= 0) {
           clearInterval(countdownInterval);
-          // Transition to Phase 2
+          // Transition to Phase 2 at Maghrib
           showPhase2();
           return;
         }
@@ -1260,9 +1274,11 @@
       const container = document.getElementById('versesContainer');
       const dayLabel = document.getElementById('dayLabel');
       const currentDay = getRamadanDay();
+      const greetingWindow = isInGreetingWindow();
+      const effectiveDay = (currentDay === 0 && greetingWindow) ? 1 : currentDay;
 
-      dayLabel.textContent = currentDay > 0
-        ? `اليوم ${currentDay} من رمضان`
+      dayLabel.textContent = effectiveDay > 0
+        ? `اليوم ${effectiveDay} من رمضان`
         : 'رمضان كريم';
 
       container.innerHTML = '';
@@ -1271,11 +1287,11 @@
         const verse = VERSES[i];
         const dayNum = verse.day;
 
-        if (dayNum > currentDay) break; // Don't show future days at all
+        if (dayNum > effectiveDay) break;
 
-        const isToday = (dayNum === currentDay);
+        const isToday = (dayNum === effectiveDay);
         const iftarPassed = isAfterIftar(dayNum - 1);
-        const isUnlocked = (dayNum < currentDay) || (isToday && iftarPassed);
+        const isUnlocked = greetingWindow ? false : ((dayNum < currentDay) || (isToday && iftarPassed));
 
         const card = document.createElement('div');
         card.className = 'verse-card';
@@ -1477,18 +1493,25 @@
     };
 
     function buildTestCairoDate(ramadanDay, hour, minute) {
-      // RAMADAN_START is Feb 18 22:00 UTC = Feb 19 00:00 Cairo
-      // Day 1 Cairo midnight = RAMADAN_START + 2h offset already accounted for
-      // ramadanDay 0 = before Ramadan
-      if (ramadanDay <= 0) {
-        // 3 days before Ramadan, at 14:00 Cairo
-        const d = new Date(RAMADAN_START.getTime() + (2 * 60 * 60 * 1000));
+      // ramadanDay -1 = before Maghrib Wed (countdown)
+      // ramadanDay 0 = Wed evening greeting window (after Maghrib, before midnight)
+      // ramadanDay 1+ = Day N of Ramadan
+      if (ramadanDay < 0) {
+        // 3 days before greeting trigger
+        const d = new Date(GREETING_TRIGGER.getTime() + (2 * 60 * 60 * 1000));
         d.setDate(d.getDate() - 3);
         d.setHours(14, 0, 0, 0);
         return d;
       }
+      if (ramadanDay === 0) {
+        // Wed evening — greeting window
+        const d = new Date(RAMADAN_DAY1.getTime() + (2 * 60 * 60 * 1000));
+        d.setDate(d.getDate() - 1);
+        d.setHours(hour, minute, 0, 0);
+        return d;
+      }
       // Day N at given hour:minute Cairo
-      const base = new Date(RAMADAN_START.getTime() + (2 * 60 * 60 * 1000));
+      const base = new Date(RAMADAN_DAY1.getTime() + (2 * 60 * 60 * 1000));
       base.setDate(base.getDate() + (ramadanDay - 1));
       base.setHours(hour, minute, 0, 0);
       return base;
@@ -1496,7 +1519,7 @@
 
     function testSetTime(ramadanDay, hour, minute) {
       testTimeOverride = buildTestCairoDate(ramadanDay, hour, minute).getTime();
-      // Also override RAMADAN_START countdown calc if needed
+      // Override time and reset phase
       resetToPhase(ramadanDay);
       updateTestStatus();
     }
@@ -1521,17 +1544,12 @@
       document.getElementById('greetingOverlay').classList.remove('hidden');
       document.getElementById('greetingCard').classList.add('hidden');
 
-      if (ramadanDay <= 0) {
-        // Phase 1: Countdown
+      if (ramadanDay < 0) {
+        // Phase 1: Countdown (before Wed Maghrib)
         document.getElementById('phase1').classList.remove('hidden');
-        // For test mode countdown, override Date for diff calc
-        const realDateNow = Date.now;
-        const fakeNow = testTimeOverride;
-        // We need the countdown to tick from our fake "now"
-        // Use a custom countdown that respects testTimeOverride
         testCountdown();
-      } else if (ramadanDay === 1) {
-        // Phase 2: Greeting (skip localStorage check in test)
+      } else if (ramadanDay === 0) {
+        // Phase 2: Greeting (Wed evening after Maghrib)
         document.getElementById('phase2').classList.remove('hidden');
         setTimeout(() => { gt.classList.add('show'); }, 300);
         setTimeout(() => { gt.classList.remove('show'); gt.classList.add('fade-out'); }, 3500);
@@ -1552,8 +1570,8 @@
         // Use testTimeOverride as "now" but increment it each second
         if (!testTimeOverride) return;
         const fakeNow = new Date(testTimeOverride);
-        // Calculate diff from fake now to RAMADAN_START
-        let diff = Math.floor((RAMADAN_START - fakeNow) / 1000) + (2 * 3600); // add Cairo offset
+        // Calculate diff from fake now to GREETING_TRIGGER (Wed Maghrib)
+        let diff = Math.floor((GREETING_TRIGGER - fakeNow) / 1000) + (2 * 3600); // add Cairo offset
         if (diff <= 0) {
           clearInterval(countdownInterval);
           countdownInterval = null;
@@ -1582,9 +1600,15 @@
       const day = getRamadanDay();
       const h = String(cairo.getHours()).padStart(2, '0');
       const m = String(cairo.getMinutes()).padStart(2, '0');
-      const phase = day === 0 ? 'Countdown' : (day === 1 && document.getElementById('phase2').classList.contains('hidden') === false ? 'Greeting' : 'Verses');
-      const iftarStatus = day > 0 ? (isAfterIftar(day - 1) ? 'after iftar' : 'before iftar') : 'N/A';
-      el.textContent = `Day: ${day} | Cairo: ${h}:${m} | Phase: ${phase} | ${iftarStatus}`;
+      const greetWin = isInGreetingWindow();
+      let phase;
+      if (isBeforeGreeting()) phase = 'Countdown';
+      else if (greetWin) phase = 'Greeting (Wed eve)';
+      else if (document.getElementById('phase2').classList.contains('hidden') === false) phase = 'Greeting (Day 1)';
+      else phase = 'Verses';
+      const effectiveDay = (day === 0 && greetWin) ? 1 : day;
+      const iftarStatus = effectiveDay > 0 ? (isAfterIftar(effectiveDay - 1) ? 'after iftar' : 'before iftar') : 'N/A';
+      el.textContent = `Day: ${effectiveDay} | Cairo: ${h}:${m} | Phase: ${phase} | ${iftarStatus}`;
 
       // Highlight active preset
       document.querySelectorAll('.test-presets button').forEach(b => b.classList.remove('active-preset'));
@@ -1601,8 +1625,9 @@
 
         <div class="test-label">QUICK PRESETS:</div>
         <div class="test-presets">
-          <button onclick="testSetTime(0, 14, 0)">Before Ramadan</button>
-          <button onclick="testSetTime(1, 10, 0)">Day 1 Morning</button>
+          <button onclick="testSetTime(-1, 14, 0)">Before Maghrib (Countdown)</button>
+          <button onclick="testSetTime(0, 18, 0)">Wed Eve Greeting</button>
+          <button onclick="testSetTime(1, 10, 0)">Day 1 Morning (Locked)</button>
           <button onclick="testSetTime(1, 18, 0)">Day 1 After Iftar</button>
           <button onclick="testSetTime(2, 18, 0)">Day 2 After Iftar</button>
           <button onclick="testSetTime(3, 18, 0)">Day 3 After Iftar</button>
@@ -1619,7 +1644,8 @@
         <div class="test-custom">
           <label>Day:</label>
           <select id="testDay">
-            <option value="0">Before Ramadan</option>
+            <option value="-1">Before Maghrib</option>
+            <option value="0">Wed Evening</option>
             ${Array.from({length: 30}, (_, i) => `<option value="${i+1}">Day ${i+1}</option>`).join('')}
           </select>
           <label>Time:</label>
@@ -1644,9 +1670,11 @@
       }
 
       const ramadanDay = getRamadanDay();
+      const greetingWindow = isInGreetingWindow();
+      const beforeGreeting = isBeforeGreeting();
 
-      if (ramadanDay === 0) {
-        // Before Ramadan → show countdown
+      if (beforeGreeting) {
+        // Before Wed Maghrib → show countdown
         document.getElementById('phase1').classList.remove('hidden');
         if (testTimeOverride) {
           testCountdown();
@@ -1661,8 +1689,8 @@
         music.play().catch(() => { document.addEventListener('click', playMusic); document.addEventListener('touchstart', playMusic); });
         // When music loops, reset to 0:08
         music.addEventListener('timeupdate', () => { if (music.currentTime < 8) music.currentTime = 8; });
-      } else if (ramadanDay === 1 && !localStorage.getItem('ramadan2026_greeted')) {
-        // First day of Ramadan, first visit → show greeting
+      } else if ((greetingWindow || ramadanDay === 1) && !localStorage.getItem('ramadan2026_greeted')) {
+        // Wed evening after Maghrib OR Day 1 first visit → show greeting
         document.getElementById('phase2').classList.remove('hidden');
         localStorage.setItem('ramadan2026_greeted', 'true');
         setTimeout(() => {
