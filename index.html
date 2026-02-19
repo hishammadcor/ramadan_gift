@@ -341,7 +341,7 @@
       gap: 12px;
     }
 
-    .tafsir-btn {
+    /* .tafsir-btn {
       padding: 8px 20px;
       background: linear-gradient(135deg, rgba(233,30,99,0.2), rgba(233,30,99,0.1));
       border: 1.5px solid var(--pink);
@@ -351,15 +351,15 @@
       font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.2s;
-    }
+    } */
 
-    .tafsir-btn:active {
+    /* .tafsir-btn:active {
       transform: scale(0.95);
       background: rgba(233,30,99,0.3);
-    }
+    } */
 
-    /* ===== TAFSIR OVERLAY ===== */
-    .tafsir-overlay {
+    /* /* ===== TAFSIR OVERLAY ===== */
+    /* .tafsir-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -370,9 +370,9 @@
       justify-content: center;
       padding: 16px;
       animation: fadeIn 0.3s ease-out;
-    }
+    } */
 
-    .tafsir-container {
+    /* .tafsir-container {
       background: linear-gradient(145deg, #2d1b69, #1a0a2e);
       border: 2px solid var(--gold);
       border-radius: 20px;
@@ -423,8 +423,8 @@
       background: rgba(255,215,0,0.05);
       border-radius: 12px;
       border: 1px solid rgba(255,215,0,0.15);
-    }
-
+    } */
+/* 
     .tafsir-content {
       font-family: 'Amiri', serif;
       font-size: 1.05rem;
@@ -450,9 +450,9 @@
       border-radius: 50%;
       margin: 16px auto 0;
       animation: spin 0.8s linear infinite;
-    }
+    } */
 
-    @keyframes spin {
+    /* @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
@@ -461,9 +461,9 @@
       text-align: center;
       border-top: 1px solid rgba(255,215,0,0.2);
       flex-shrink: 0;
-    }
+    } */
 
-    .tafsir-close button {
+    /* .tafsir-close button {
       padding: 10px 36px;
       background: linear-gradient(135deg, var(--gold), #e6c200);
       color: var(--bg-dark);
@@ -473,9 +473,9 @@
       border: none;
       border-radius: 50px;
       cursor: pointer;
-    }
+    } */
 
-    .tafsir-close button:active { transform: scale(0.95); }
+    /* .tafsir-close button:active { transform: scale(0.95); } */ */
 
     .play-btn {
       width: 48px;
@@ -747,9 +747,9 @@
       .greeting-card .message { font-size: 1rem; }
       .verse-text { font-size: 1.1rem; }
       .verse-card { padding: 18px 14px; }
-      .tafsir-header h2 { font-size: 1.2rem; }
+      /* .tafsir-header h2 { font-size: 1.2rem; }
       .tafsir-content { font-size: 0.95rem; }
-      .tafsir-overlay { padding: 10px; }
+      .tafsir-overlay { padding: 10px; } */
     }
   </style>
 </head>
@@ -821,7 +821,7 @@
         <br><br>
         اللهم اجعل هذا الشهر الكريم شهر خير وبركة علينا، واجمعنا فيه على طاعتك، وبارك فينا وفي مستقبلنا.
         <br><br>
-        جهّزتلك هدية بسيطة: كل يوم بعد الإفطار هتلاقي آية من كتاب الله عن الحب والمودة والرحمة بين الأزواج، بصوت الشيخ العفاسي مع تفسير القرطبي
+        جهّزتلك هدية بسيطة: كل يوم بعد الإفطار هتلاقي آية من كتاب الله عن الحب والمودة والرحمة بين الأزواج، بصوت الشيخ العفاسي 
         <br><br>
         ✨ كل يوم آية... كل يوم نور ✨
       </p>
@@ -1311,7 +1311,7 @@
                 <button class="play-btn" onclick="toggleAudio(this, ${verse.surahNum}, ${verse.ayahNum})" aria-label="تشغيل">▶</button>
                 <span class="audio-label">الشيخ العفاسي</span>
               </div>
-              <button class="tafsir-btn" onclick="openTafsir(${verse.surahNum}, ${verse.ayahNum}, '${verse.surah}', '${verse.ayah}')">تفسير القرطبي</button>
+              // <button class="tafsir-btn" onclick="openTafsir(${verse.surahNum}, ${verse.ayahNum}, '${verse.surah}', '${verse.ayah}')">تفسير القرطبي</button>
             </div>
           `;
           // Fetch full ayah text from API
@@ -1407,66 +1407,66 @@
     /* ==========================================================
        TAFSIR OVERLAY
        ========================================================== */
-    function openTafsir(surahNum, ayahNum, surahName, ayahLabel) {
-      // Remove existing overlay if any
-      const existing = document.getElementById('tafsirOverlay');
-      if (existing) existing.remove();
+    // function openTafsir(surahNum, ayahNum, surahName, ayahLabel) {
+    //   // Remove existing overlay if any
+    //   const existing = document.getElementById('tafsirOverlay');
+    //   if (existing) existing.remove();
 
-      const overlay = document.createElement('div');
-      overlay.className = 'tafsir-overlay';
-      overlay.id = 'tafsirOverlay';
-      overlay.innerHTML = `
-        <div class="tafsir-container">
-          <div class="tafsir-header">
-            <h2>تفسير القرطبي</h2>
-            <div class="tafsir-ref">سورة ${surahName} — الآية ${ayahLabel}</div>
-          </div>
-          <div class="tafsir-body" id="tafsirBody">
-            <div class="tafsir-loading">جارٍ تحميل التفسير...</div>
-          </div>
-          <div class="tafsir-close">
-            <button onclick="closeTafsir()">إغلاق</button>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(overlay);
-      // Prevent background scroll
-      document.body.style.overflow = 'hidden';
+    //   const overlay = document.createElement('div');
+    //   overlay.className = 'tafsir-overlay';
+    //   overlay.id = 'tafsirOverlay';
+    //   overlay.innerHTML = `
+    //     <div class="tafsir-container">
+    //       <div class="tafsir-header">
+    //         <h2>تفسير القرطبي</h2>
+    //         <div class="tafsir-ref">سورة ${surahName} — الآية ${ayahLabel}</div>
+    //       </div>
+    //       <div class="tafsir-body" id="tafsirBody">
+    //         <div class="tafsir-loading">جارٍ تحميل التفسير...</div>
+    //       </div>
+    //       <div class="tafsir-close">
+    //         <button onclick="closeTafsir()">إغلاق</button>
+    //       </div>
+    //     </div>
+    //   `;
+    //   document.body.appendChild(overlay);
+    //   // Prevent background scroll
+    //   document.body.style.overflow = 'hidden';
 
-      // Close on overlay background click
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeTafsir();
-      });
+    //   // Close on overlay background click
+    //   overlay.addEventListener('click', (e) => {
+    //     if (e.target === overlay) closeTafsir();
+    //   });
 
-      // Fetch tafsir and ayah text
-      const ayahKey = `${surahNum}:${ayahNum}`;
-      const ayahTextPromise = ayahCache[ayahKey]
-        ? Promise.resolve(ayahCache[ayahKey])
-        : fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/quran-uthmani`)
-            .then(r => r.json())
-            .then(d => d.code === 200 ? d.data.text : '')
-            .catch(() => '');
+    //   // Fetch tafsir and ayah text
+    //   const ayahKey = `${surahNum}:${ayahNum}`;
+    //   const ayahTextPromise = ayahCache[ayahKey]
+    //     ? Promise.resolve(ayahCache[ayahKey])
+    //     : fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/quran-uthmani`)
+    //         .then(r => r.json())
+    //         .then(d => d.code === 200 ? d.data.text : '')
+    //         .catch(() => '');
 
-      const tafsirPromise = fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/ar.qurtubi`)
-        .then(r => r.json())
-        .then(d => d.code === 200 ? d.data.text : 'تعذر تحميل التفسير')
-        .catch(() => 'تعذر تحميل التفسير. تأكدي من الاتصال بالإنترنت.');
+    //   const tafsirPromise = fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/ar.qurtubi`)
+    //     .then(r => r.json())
+    //     .then(d => d.code === 200 ? d.data.text : 'تعذر تحميل التفسير')
+    //     .catch(() => 'تعذر تحميل التفسير. تأكدي من الاتصال بالإنترنت.');
 
-      Promise.all([ayahTextPromise, tafsirPromise]).then(([ayahText, tafsirText]) => {
-        const body = document.getElementById('tafsirBody');
-        if (!body) return;
-        body.innerHTML = `
-          ${ayahText ? `<div class="tafsir-ayah-text">${ayahText}</div>` : ''}
-          <div class="tafsir-content">${tafsirText}</div>
-        `;
-      });
-    }
+    //   Promise.all([ayahTextPromise, tafsirPromise]).then(([ayahText, tafsirText]) => {
+    //     const body = document.getElementById('tafsirBody');
+    //     if (!body) return;
+    //     body.innerHTML = `
+    //       ${ayahText ? `<div class="tafsir-ayah-text">${ayahText}</div>` : ''}
+    //       <div class="tafsir-content">${tafsirText}</div>
+    //     `;
+    //   });
+    // }
 
-    function closeTafsir() {
-      const overlay = document.getElementById('tafsirOverlay');
-      if (overlay) overlay.remove();
-      document.body.style.overflow = '';
-    }
+    // function closeTafsir() {
+    //   const overlay = document.getElementById('tafsirOverlay');
+    //   if (overlay) overlay.remove();
+    //   document.body.style.overflow = '';
+    // }
 
     /* ==========================================================
        STOP MUSIC HELPER
@@ -1529,7 +1529,7 @@
       stopMusic();
       if (currentAudio) { currentAudio.pause(); currentAudio = null; }
       if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
-      closeTafsir();
+      // closeTafsir();
 
       // Hide all phases
       document.getElementById('phase1').classList.add('hidden');
