@@ -725,6 +725,149 @@
       font-family: sans-serif;
     }
 
+    /* ===== CHOOSER SCREEN ===== */
+    .chooser-card {
+      background: linear-gradient(135deg, rgba(45, 27, 105, 0.95) 0%, rgba(74, 26, 107, 0.9) 100%);
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 40px 28px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+      position: relative;
+      z-index: 2;
+    }
+    .chooser-title {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .chooser-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .btn-ramadan {
+      background: linear-gradient(135deg, var(--gold) 0%, #e6a800 100%);
+      color: #1a0a2e;
+    }
+    .btn-eid {
+      background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+      color: #1a0a2e;
+    }
+
+    /* ===== EID PAGE ===== */
+    #eidPage {
+      background: linear-gradient(135deg, #1a0a2e 0%, #2d1b69 30%, #5a1a6b 60%, #1a0a2e 100%);
+    }
+    .eid-card {
+      background: linear-gradient(135deg, rgba(45, 27, 105, 0.95) 0%, rgba(74, 26, 107, 0.9) 100%);
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 40px 28px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.15);
+      position: relative;
+      z-index: 2;
+    }
+    .eid-header {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      animation: eidFloat 3s ease-in-out infinite;
+    }
+    .eid-title {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .eid-subtitle {
+      font-family: 'Amiri', serif;
+      font-size: 1.3rem;
+      color: var(--pink-light);
+      margin-bottom: 16px;
+    }
+    .eid-gift-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 36px;
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a0a2e;
+      background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(233, 30, 99, 0.4);
+      animation: eidPulse 2s ease-in-out infinite;
+    }
+    .eid-gift-btn:active {
+      transform: scale(0.96);
+    }
+    .eid-message-card {
+      background: linear-gradient(135deg, rgba(45, 27, 105, 0.95) 0%, rgba(74, 26, 107, 0.9) 100%);
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 36px 24px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.15);
+      position: relative;
+      z-index: 2;
+    }
+    .eid-message-card .message {
+      font-family: 'Amiri', serif;
+      font-size: 1.15rem;
+      line-height: 2.2;
+      color: var(--cream);
+      direction: rtl;
+    }
+    .eid-video-container {
+      max-width: 600px;
+      width: 90%;
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== EID CONFETTI ===== */
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall linear infinite;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    @keyframes eidFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes eidPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(233, 30, 99, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 6px 30px rgba(233, 30, 99, 0.6); }
+    }
+    @keyframes celebrationBounce {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (min-width: 500px) {
       .countdown-card { padding: 50px 40px; }
@@ -736,6 +879,11 @@
       .greeting-card h2 { font-size: 2.5rem; }
       .verse-text { font-size: 1.5rem; }
       .phase3-header h1 { font-size: 2.5rem; }
+      .eid-title { font-size: 2.8rem; }
+      .eid-subtitle { font-size: 1.5rem; }
+      .eid-card { padding: 50px 36px; }
+      .eid-message-card { padding: 50px 36px; }
+      .chooser-title { font-size: 2.4rem; }
     }
 
     @media (max-width: 360px) {
@@ -747,6 +895,11 @@
       .greeting-card .message { font-size: 1rem; }
       .verse-text { font-size: 1.1rem; }
       .verse-card { padding: 18px 14px; }
+      .eid-title { font-size: 1.7rem; }
+      .eid-subtitle { font-size: 1.1rem; }
+      .eid-gift-btn { font-size: 1.1rem; padding: 12px 28px; }
+      .eid-message-card .message { font-size: 1rem; }
+      .chooser-title { font-size: 1.6rem; }
       /* .tafsir-header h2 { font-size: 1.2rem; }
       .tafsir-content { font-size: 0.95rem; }
       .tafsir-overlay { padding: 10px; } */
@@ -846,6 +999,67 @@
     </div>
   </div>
 
+  <!-- ===== EID MUSIC ===== -->
+  <audio id="eidMusic" src="eid music.mp3" preload="auto" loop></audio>
+
+  <!-- ===== CHOOSER SCREEN ===== -->
+  <div id="chooserScreen" class="phase hidden">
+    <div class="chooser-card">
+      <div style="font-size: 3rem; margin-bottom: 12px;">🌙🎉✨</div>
+      <h2 class="chooser-title">اختاري يا عنان 💕</h2>
+      <div class="geometric-border"></div>
+      <div class="chooser-buttons">
+        <button class="btn-continue btn-ramadan" onclick="loadRamadanPage()">
+          صفحة رمضان 🌙
+        </button>
+        <button class="btn-continue btn-eid" onclick="loadEidPage()">
+          هدية العيد 🎉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EID PAGE ===== -->
+  <div id="eidPage" class="phase hidden">
+    <div id="eidCelebration" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;overflow:hidden;"></div>
+
+    <div class="eid-card" id="eidInitialView">
+      <div class="eid-header">🎉✨🌙✨🎉</div>
+      <h1 class="eid-title">عيد مبارك يا عنان</h1>
+      <p class="eid-subtitle">كل سنة وأنتِ طيبة 💕</p>
+      <div class="geometric-border"></div>
+      <button class="eid-gift-btn" id="eidGiftBtn" onclick="onEidGiftClick()">
+        هدية العيد 🎁
+      </button>
+    </div>
+
+    <div class="eid-message-card hidden" id="eidMessage">
+      <div style="font-size: 2.5rem; margin-bottom: 12px;">💕🌙💕</div>
+      <div class="geometric-border"></div>
+      <p class="message">
+        يا ريتني كنت في مصر عشان أعيّد معاكِ 💕
+        <br><br>
+        ده أول عيد لنا مع بعض...
+        <br>
+        والسنة الجاية هنكون مع بعض في بيتنا إن شاء الله 🏠
+        <br><br>
+        كل سنة وأنتِ طيبة يا عنان
+        <br>
+        وعيدك مبارك يا أجمل حاجة في حياتي 🌙✨
+      </p>
+      <div class="geometric-border"></div>
+      <button class="eid-gift-btn hidden" id="eidVideoBtn" onclick="onEidVideoClick()">
+        هدية العيد 🎬
+      </button>
+    </div>
+
+    <div class="eid-video-container hidden" id="eidVideoContainer">
+      <video id="eidVideo" src="eid video.mp4" controls playsinline
+             style="width:100%; border-radius:16px;">
+      </video>
+    </div>
+  </div>
+
   <script>
     /* ==========================================================
        CONFIGURATION — Two key dates:
@@ -854,6 +1068,10 @@
        ========================================================== */
     const GREETING_TRIGGER = new Date(Date.UTC(2026, 1, 18, 15, 45, 0)); // Feb 18 17:45 Cairo
     const RAMADAN_DAY1 = new Date(Date.UTC(2026, 1, 18, 22, 0, 0));     // Feb 19 00:00 Cairo
+
+    /* ===== EID CONFIGURATION ===== */
+    const EID_CONFIRMED = false; // Set to true when Eid is officially announced
+    const EID_VISITED_KEY = 'eid_page_visited';
 
     /* ==========================================================
        VERSE DATA — 30 days of Quran verses
@@ -1478,6 +1696,122 @@
       }
     }
 
+    function stopAllMusic() {
+      stopMusic();
+      const eidMusic = document.getElementById('eidMusic');
+      if (eidMusic) { eidMusic.pause(); eidMusic.currentTime = 0; }
+    }
+
+    /* ==========================================================
+       EID PAGE — Chooser + Celebration
+       ========================================================== */
+    function hideAllPhases() {
+      document.getElementById('phase1').classList.add('hidden');
+      document.getElementById('phase2').classList.add('hidden');
+      document.getElementById('phase3').classList.add('hidden');
+      document.getElementById('chooserScreen').classList.add('hidden');
+      document.getElementById('eidPage').classList.add('hidden');
+    }
+
+    function shouldShowChooser() {
+      if (!EID_CONFIRMED) return false;
+      try {
+        return localStorage.getItem(EID_VISITED_KEY) === 'true';
+      } catch (e) { return false; }
+    }
+
+    function markEidVisited() {
+      try { localStorage.setItem(EID_VISITED_KEY, 'true'); } catch (e) {}
+    }
+
+    function showChooser() {
+      hideAllPhases();
+      stopAllMusic();
+      document.getElementById('chooserScreen').classList.remove('hidden');
+    }
+
+    function loadRamadanPage() {
+      document.getElementById('chooserScreen').classList.add('hidden');
+      initRamadan();
+    }
+
+    function loadEidPage() {
+      document.getElementById('chooserScreen').classList.add('hidden');
+      showEidPage();
+    }
+
+    function showEidPage() {
+      hideAllPhases();
+      markEidVisited();
+      document.getElementById('eidPage').classList.remove('hidden');
+      // Reset eid page state
+      document.getElementById('eidInitialView').classList.remove('hidden');
+      document.getElementById('eidGiftBtn').classList.remove('hidden');
+      document.getElementById('eidMessage').classList.add('hidden');
+      document.getElementById('eidVideoBtn').classList.add('hidden');
+      document.getElementById('eidVideoContainer').classList.add('hidden');
+      // Clear old confetti
+      document.getElementById('eidCelebration').innerHTML = '';
+      startEidCelebration();
+    }
+
+    function startEidCelebration() {
+      const container = document.getElementById('eidCelebration');
+      const colors = ['#ffd700', '#e91e63', '#fff8e7', '#2e7d32', '#f48fb1'];
+      for (let i = 0; i < 60; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = Math.random() * 3 + 's';
+        piece.style.animationDuration = (3 + Math.random() * 4) + 's';
+        container.appendChild(piece);
+      }
+      const symbols = ['🌙', '⭐', '✨', '🎉', '🎊'];
+      for (let i = 0; i < 20; i++) {
+        const el = document.createElement('div');
+        el.className = 'falling-star';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = (4 + Math.random() * 6) + 's';
+        container.appendChild(el);
+      }
+    }
+
+    function onEidGiftClick() {
+      const music = document.getElementById('eidMusic');
+      music.currentTime = 0;
+      music.volume = 0.5;
+      music.play().catch(() => {});
+
+      document.getElementById('eidInitialView').classList.add('hidden');
+
+      const msgCard = document.getElementById('eidMessage');
+      msgCard.classList.remove('hidden');
+      msgCard.style.animation = 'celebrationBounce 0.8s ease-out';
+
+      setTimeout(() => {
+        const btn = document.getElementById('eidVideoBtn');
+        btn.classList.remove('hidden');
+        btn.style.animation = 'celebrationBounce 0.6s ease-out';
+      }, 2000);
+    }
+
+    function onEidVideoClick() {
+      const music = document.getElementById('eidMusic');
+      music.pause();
+      music.currentTime = 0;
+
+      document.getElementById('eidVideoBtn').classList.add('hidden');
+
+      const videoContainer = document.getElementById('eidVideoContainer');
+      videoContainer.classList.remove('hidden');
+      videoContainer.style.animation = 'fadeIn 0.8s ease-out';
+
+      const video = document.getElementById('eidVideo');
+      video.play().catch(() => {});
+    }
+
     /* ==========================================================
        TEST MODE — Add ?test to URL to activate
        Overrides getCairoNow() to simulate any day/time
@@ -1525,15 +1859,13 @@
 
     function resetToPhase(ramadanDay) {
       // Stop everything
-      stopMusic();
+      stopAllMusic();
       if (currentAudio) { currentAudio.pause(); currentAudio = null; }
       if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
       // closeTafsir();
 
       // Hide all phases
-      document.getElementById('phase1').classList.add('hidden');
-      document.getElementById('phase2').classList.add('hidden');
-      document.getElementById('phase3').classList.add('hidden');
+      hideAllPhases();
 
       // Reset greeting state
       const gt = document.getElementById('greetingText');
@@ -1652,6 +1984,13 @@
           <button onclick="const d=+document.getElementById('testDay').value; const t=document.getElementById('testTime').value.split(':'); testSetTime(d, +t[0], +t[1]);">Apply</button>
           <button onclick="testTimeOverride=null; location.reload();" style="background: #666;">Reset to Real</button>
         </div>
+
+        <div class="test-label">EID MODE:</div>
+        <div class="test-presets">
+          <button onclick="hideAllPhases(); stopAllMusic(); showEidPage();">Show Eid Page</button>
+          <button onclick="hideAllPhases(); stopAllMusic(); showChooser();">Show Chooser</button>
+          <button onclick="try{localStorage.removeItem(EID_VISITED_KEY)}catch(e){} alert('Eid visited flag cleared');">Clear Eid Visited</button>
+        </div>
       `;
       document.body.appendChild(panel);
     }
@@ -1659,15 +1998,7 @@
     /* ==========================================================
        INITIALIZATION
        ========================================================== */
-    function init() {
-      createStars();
-      startFallingStars();
-
-      // Activate test panel if ?test is in URL
-      if (window.location.search.includes('test')) {
-        createTestPanel();
-      }
-
+    function initRamadan() {
       const ramadanDay = getRamadanDay();
       const greetingWindow = isInGreetingWindow();
       const beforeGreeting = isBeforeGreeting();
@@ -1704,6 +2035,29 @@
           document.getElementById('greetingCard').classList.remove('hidden');
         }, 5000);
       }
+    }
+
+    function init() {
+      createStars();
+      startFallingStars();
+
+      // Activate test panel if ?test is in URL
+      if (window.location.search.includes('test')) {
+        createTestPanel();
+      }
+
+      // Eid routing
+      if (EID_CONFIRMED) {
+        if (shouldShowChooser()) {
+          showChooser();
+        } else {
+          showEidPage();
+        }
+        return;
+      }
+
+      // Default: Ramadan flow
+      initRamadan();
     }
 
     init();
