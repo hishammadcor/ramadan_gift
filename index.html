@@ -1054,9 +1054,12 @@
     </div>
 
     <div class="eid-video-container hidden" id="eidVideoContainer">
-      <video id="eidVideo" src="eid video.mp4" controls playsinline
-             style="width:100%; border-radius:16px;">
-      </video>
+      <iframe id="eidVideo"
+              src=""
+              style="width:100%; aspect-ratio:16/9; border:none; border-radius:16px;"
+              allow="autoplay; encrypted-media"
+              allowfullscreen>
+      </iframe>
     </div>
   </div>
 
@@ -1808,8 +1811,9 @@
       videoContainer.classList.remove('hidden');
       videoContainer.style.animation = 'fadeIn 0.8s ease-out';
 
-      const video = document.getElementById('eidVideo');
-      video.play().catch(() => {});
+      // Load Google Drive embed (setting src triggers playback)
+      const iframe = document.getElementById('eidVideo');
+      iframe.src = 'https://drive.google.com/file/d/18Sznl4WuOHhATTk7OuH2Z95OqYXyH5M-/preview';
     }
 
     /* ==========================================================
